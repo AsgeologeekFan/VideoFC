@@ -1,5 +1,5 @@
 """
-
+pass
 """
 import os.path
 import shutil
@@ -10,8 +10,9 @@ import cv2 as cv
 import webbrowser
 import matplotlib.pyplot as plt
 from PIL import Image, ImageEnhance
+from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QApplication, QMainWindow, QFileDialog, QMessageBox, QSlider
-
+import rc_resource
 
 from ui_main import Ui_MainWindow
 
@@ -61,7 +62,7 @@ class QmyMainWindow(QMainWindow):
         self.ui.checkBox.stateChanged.connect(self.toggle_crop_method)
 
         self.ui.actionCopyright.triggered.connect(self.clickcopyright)
-
+        self.setWindowIcon(QIcon(':/V2F.ico'))
 
     def toggle_crop_method(self):
         """

@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>V2F.ico</file>
+    </qresource>
+</RCC>
