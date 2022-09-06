@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="329b299d-6de6-481e-ae60-62aadb04e0ca" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+    <list default="true" id="329b299d-6de6-481e-ae60-62aadb04e0ca" name="Changes" comment="Add window icon">
+      <change afterPath="$PROJECT_DIR$/dist/VideoFC.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VideoFC.spec" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mainmpl.py" beforeDir="false" afterPath="$PROJECT_DIR$/mainmpl.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,8 +68,16 @@
       <option name="presentableId" value="Default" />
       <updated>1662422546291</updated>
       <workItem from="1662422548504" duration="26000" />
-      <workItem from="1662422665386" duration="4315000" />
+      <workItem from="1662422665386" duration="5783000" />
     </task>
+    <task id="LOCAL-00001" summary="Add window icon">
+      <created>1662427251229</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1662427251229</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -88,7 +94,11 @@
       </map>
     </option>
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Add window icon" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add window icon" />
+  </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/VideoFC$mainmpl.coverage" NAME="mainmpl Coverage Results" MODIFIED="1662426824732" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/VideoFC$mainmpl.coverage" NAME="mainmpl Coverage Results" MODIFIED="1662427787241" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
