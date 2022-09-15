@@ -81,7 +81,7 @@ class QmyMainWindow(QMainWindow):
 
         """
         if self.ui.comboBox_extract_method.currentText() == "指定起止时刻":
-            self.ui.lineEdit.setPlaceholderText('请输入起止秒数和间隔秒数（空格分隔）  例如：00:00:42 00:04:20 5 表示从第00分42秒开始，第4分20秒截止，每隔5秒提取一张')
+            self.ui.lineEdit.setPlaceholderText('请输入起止时刻和间隔秒数（空格分隔）  例如：00:00:42 00:04:20 5 表示从第00分42秒开始，第4分20秒截止，每隔5秒提取一张')
         elif self.ui.comboBox_extract_method.currentText() == "提取特定秒":
             self.ui.lineEdit.setPlaceholderText('请输入要提取的视频时刻 (空格分隔)   例如：00:00:42 00:04:20 04:20:00')
         elif self.ui.comboBox_extract_method.currentText() == "提取特定帧":
