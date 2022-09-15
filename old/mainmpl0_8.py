@@ -9,7 +9,7 @@ import sys
 import cv2 as cv
 import webbrowser
 import matplotlib.pyplot as plt
-from PIL import Image, ImageEnhance
+from PIL import Image, ImageEnhance, ImageChops
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QApplication, QMainWindow, QFileDialog, QMessageBox, QSlider
 import rc_resource
@@ -146,6 +146,8 @@ class QmyMainWindow(QMainWindow):
         self.extract_time_interval = self.ui.spinBox_interval.value()
         self.jpg_quality = self.ui.spinBox_quality.value()
 
+
+        ## 按起止时间和时间间隔提取
         # os.path.dirname(path) 返回文件路径
         self.video_output_path = os.path.dirname(self.video_directory[0])
         self.pathOut_name = (
@@ -161,7 +163,6 @@ class QmyMainWindow(QMainWindow):
         if os.path.exists(self.pathOut) and os.path.isdir(self.pathOut):
             shutil.rmtree(self.pathOut)
         os.makedirs(self.pathOut, exist_ok=False)
-
 
         self.frame_sum = (self.end_extract_time - self.initial_extract_time) / self.extract_time_interval + 1
         self.count = 0
@@ -189,6 +190,23 @@ class QmyMainWindow(QMainWindow):
                 "正在提取第 {} 张图像，共 {} 张".format(self.count, int(self.frame_sum))
             )
             self.ui.progressBar_video.setValue(self.count)
+
+
+        ## 指定特定时间点
+        # os.path.dirname(path) 返回文件路径
+        self.video_output_path = os.path.dirname(self.video_directory[0])
+        self.pathOut_name = (
+            "frame_"
+            + str(self.initial_extract_time)
+            + "_"
+            + str(self.end_extract_time)
+            + "_"
+            + str(self.extract_time_interval)
+        )
+        self.pathOut = os.path.join(self.video_output_path, self.pathOut_name)
+        if os.path.exists(self.pathOut) and os.path.isdir(self.pathOut):
+            shutil.rmtree(self.pathOut)
+        os.makedirs(self.pathOut, exist_ok=False)
 
 
         msgBox = QMessageBox()
@@ -248,7 +266,7 @@ class QmyMainWindow(QMainWindow):
 
     def on_press(self, event):
         """
-        未完成
+
         :return:
         """
         #print('you pressed', event.button, event.xdata, event.ydata)
@@ -288,7 +306,6 @@ class QmyMainWindow(QMainWindow):
             self.vertical_line2.set_visible(True)
             self.ui.MplWidget.canvas.draw()
 
-
             self.horizontal_line2out = self.ax.axhline(color='b', lw=0.8, ls='--')
             self.vertical_line2out = self.ax.axvline(color='b', lw=0.8, ls='--')
             self.horizontal_line2out.set_ydata(event.ydata)
@@ -297,11 +314,9 @@ class QmyMainWindow(QMainWindow):
             self.vertical_line2out.set_visible(True)
             self.ax.figure.canvas.draw()
 
-
-
     def preview_image(self):
         """
-        未完成
+
         :return:
         """
         self.preview_img_num = self.ui.spinBox_No.value()
@@ -367,12 +382,31 @@ class QmyMainWindow(QMainWindow):
             self.ui.horizontalSlider.setTickPosition(QSlider.TicksAbove)
             self.ui.horizontalSlider.setMouseTracking(True)
             self.ui.horizontalSlider.setEnabled(True)
+        elif self.ui.comboBox.currentText() == '反相处理':
+            self.preview_img_num = self.ui.spinBox_No.value()
+            self.img_ref = Image.open(os.path.join(self.file_directory, self.file_list[self.preview_img_num - 1]))
+            self.img_ref_rotate = self.img_ref.rotate(-self.sum_rotate_angle)
+            self.img_ref_inverted = ImageChops.invert(self.img_ref_rotate)
+            self.bright_num = self.ui.horizontalSlider.value() / 20.0
+            self.img_ref_inverted_bright = ImageEnhance.Brightness(self.img_ref_inverted)
+
+            self.temp_output_fullname = self.temp_path + "/" + "temp_inverted_" + self.file_list[self.preview_img_num - 1]
+            self.img_ref_inverted_bright.enhance(self.bright_num).save(self.temp_output_fullname)
+
+            self.ui.label_adjustpara.setText('亮度')
+            self.ui.horizontalSlider.setMinimum(10)
+            self.ui.horizontalSlider.setMaximum(40)
+            self.ui.horizontalSlider.setTickInterval(5)
+            self.ui.horizontalSlider.setTickPosition(QSlider.TicksAbove)
+            self.ui.horizontalSlider.setMouseTracking(True)
+            self.ui.horizontalSlider.setEnabled(True)
+
 
         self.ui.MplWidget.canvas.axes.clear()
 
         self.preview_img = Image.open(self.temp_output_fullname)
 
-        self.ui.MplWidget.canvas.axes.imshow(self.preview_img, animated=True, cmap='binary_r')
+        self.ui.MplWidget.canvas.axes.imshow(self.preview_img, animated=True, cmap='binary_r') #binary_r
 
         if self.ui.checkBox.isChecked() == True:
             self.ui.label_leftupx.setText(str(self.ui.spinBox_leftup_x.value()))
@@ -460,6 +494,7 @@ class QmyMainWindow(QMainWindow):
         sum_i = 0
 
         self.ui.progressBar.setRange(0, self.file_num)
+        self.bright_num = self.ui.horizontalSlider.value() / 20.0
         self.contrast_num = self.ui.horizontalSlider.value() / 20.0
         self.threshold = self.ui.horizontalSlider.value()
 
@@ -526,6 +561,27 @@ class QmyMainWindow(QMainWindow):
                     self.image_output_fullname = self.output_path + "/" + "crop_bin_" + each_image
                     try:
                         self.roi_area_bin.save(self.image_output_fullname)
+                    except:
+                        pass
+                    finally:
+                        sum_i += 1
+                        self.ui.progressBar.setValue(sum_i)
+        elif self.ui.comboBox.currentText() == '反相处理':
+            for each_image in os.listdir(self.file_directory):
+                self.image_input_fullname = self.file_directory + "/" + each_image
+                try:
+                    self.img = Image.open(self.image_input_fullname)
+                except:
+                    pass
+                finally:
+                    self.img_rotate = self.img.rotate(-self.sum_rotate_angle)
+                    self.box = (self.lux, self.luy, self.rdx, self.rdy)
+                    self.roi_area = self.img_rotate.crop(self.box)
+                    self.roi_area_inverted = ImageChops.invert(self.roi_area)
+                    self.roi_area_inverted_bright = ImageEnhance.Brightness(self.roi_area_inverted)
+                    self.image_output_fullname = self.output_path + "/" + "crop_inverted_bright_" + each_image
+                    try:
+                        self.roi_area_inverted_bright.enhance(self.bright_num).save(self.image_output_fullname)
                     except:
                         pass
                     finally:
