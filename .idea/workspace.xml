@@ -4,16 +4,23 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="329b299d-6de6-481e-ae60-62aadb04e0ca" name="Changes" comment="Add exe">
-      <change afterPath="$PROJECT_DIR$/.idea/other.xml" afterDir="false" />
+    <list default="true" id="329b299d-6de6-481e-ae60-62aadb04e0ca" name="Changes" comment="v0.9">
+      <change afterPath="$PROJECT_DIR$/VideoFC.spec" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/VideoFC/Analysis-00.toc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/VideoFC/EXE-00.toc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/VideoFC/PKG-00.toc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/VideoFC/PYZ-00.pyz" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/VideoFC/PYZ-00.toc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/VideoFC/Tree-00.toc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/VideoFC/Tree-01.toc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/VideoFC/Tree-02.toc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/VideoFC/VideoFC.exe.manifest" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/VideoFC/VideoFC.pkg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/VideoFC/base_library.zip" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/VideoFC/warn-VideoFC.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/VideoFC/xref-VideoFC.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dist/VideoFC.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/Readme.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VideoFC.spec" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/VideoFC.exe" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/old/mainold.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.ui" beforeDir="false" afterPath="$PROJECT_DIR$/main.ui" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mainmpl.py" beforeDir="false" afterPath="$PROJECT_DIR$/old/mainmpl0_8.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/ui_main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,6 +29,7 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -143,8 +151,6 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.main (1)" />
-        <item itemvalue="Python.mainmpl (1)" />
-        <item itemvalue="Python.mainmpl" />
         <item itemvalue="Python.mainmpl0_8" />
       </list>
     </recent_temporary>
@@ -162,7 +168,7 @@
       <workItem from="1662445355698" duration="3440000" />
       <workItem from="1662513273887" duration="36413000" />
       <workItem from="1663035983377" duration="16000" />
-      <workItem from="1663210430807" duration="711000" />
+      <workItem from="1663210430807" duration="1485000" />
     </task>
     <task id="LOCAL-00001" summary="Add window icon">
       <created>1662427251229</created>
@@ -178,7 +184,21 @@
       <option name="project" value="LOCAL" />
       <updated>1662429505658</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="v0.9">
+      <created>1663211160233</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1663211160233</updated>
+    </task>
+    <task id="LOCAL-00004" summary="v0.9">
+      <created>1663211180610</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1663211180610</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -199,11 +219,12 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="Add window icon" />
     <MESSAGE value="Add exe" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add exe" />
+    <MESSAGE value="v0.9" />
+    <option name="LAST_COMMIT_MESSAGE" value="v0.9" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/VideoFC$test.coverage" NAME="test Coverage Results" MODIFIED="1662561488223" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/VideoFC$main__1_.coverage" NAME="main (1) Coverage Results" MODIFIED="1663210683449" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/VideoFC$main__1_.coverage" NAME="main (1) Coverage Results" MODIFIED="1663214943829" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/VideoFC$mainmpl.coverage" NAME="mainmpl Coverage Results" MODIFIED="1662522196402" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/VideoFC$mainmpl__1_.coverage" NAME="mainmpl (1) Coverage Results" MODIFIED="1662561629174" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
