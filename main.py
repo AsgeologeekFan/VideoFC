@@ -7,18 +7,19 @@ import os.path
 import shutil
 import sys
 
-
 import cv2 as cv
 import webbrowser
+
+import imageio.v3 as iio
 import matplotlib.pyplot as plt
 from PIL import Image, ImageEnhance, ImageChops
-from PySide6.QtGui import QIcon
+from PySide6.QtGui import QIcon, QMovie
 from PySide6.QtWidgets import (
     QApplication,
     QMainWindow,
     QFileDialog,
     QMessageBox,
-    QSlider, QProgressBar,
+    QSlider, QProgressBar
 )
 import rc_resource
 
@@ -68,6 +69,12 @@ class QmyMainWindow(QMainWindow):
 
         self.ui.checkBox.stateChanged.connect(self.toggle_crop_method)
         self.ui.pushButton_crop.clicked.connect(self.crop_save)
+
+        self.ui.pushButton_gif_home.clicked.connect(self.choose_gif_directory)
+        # self.ui.spinBox_gif_time.valueChanged.connect(self.preview_gif)
+        self.ui.pushButton_test.clicked.connect(self.preview_gif)
+        # self.ui.gif_display.setScaledContents(True)
+        self.ui.pushButton_gif_save.clicked.connect(self.create_gif)
 
         self.ui.actionCopyright.triggered.connect(self.clickcopyright)
         self.setWindowIcon(QIcon(":/V2F.ico"))
@@ -153,9 +160,13 @@ class QmyMainWindow(QMainWindow):
         self.n_frames = int(self.cap.get(cv.CAP_PROP_FRAME_COUNT))
         # 视频的时长
         self.dur = self.n_frames / self.fps
+        # 视频的高度
+        self.frame_origin_width = int(self.cap.get(cv.CAP_PROP_FRAME_WIDTH))
+        # 视频的宽度
+        self.frame_origin_height = int(self.cap.get(cv.CAP_PROP_FRAME_HEIGHT))
 
         self.ui.statusbar.showMessage(
-            "当前视频共有{:1f}秒，帧率为{:1f}, 总帧数为{}".format(self.dur, self.fps, self.n_frames)
+            "当前视频共有{:.2f}秒，帧率为{:.1f}, 总帧数为{}, 宽度为{}px，高度为{}px".format(self.dur, self.fps, self.n_frames, self.frame_origin_width, self.frame_origin_height)
         )
 
     def extract_video(self):
@@ -211,6 +222,9 @@ class QmyMainWindow(QMainWindow):
                         ),
                     )
                     ret, self.image = self.cap.read()
+                    self.frame_length = int(self.ui.lineEdit_length.text())
+                    self.frame_width = int(self.ui.lineEdit_width.text())
+                    self.image_resized = cv.resize(self.image, (self.frame_length, self.frame_width),interpolation=cv.INTER_AREA)
                     self.now_time_second = self.initial_time_second + self.count * int(self.time_tuple_number_name[2])
                     m, s = divmod(self.now_time_second, 60)
                     h, m = divmod(m, 60)
@@ -220,7 +234,7 @@ class QmyMainWindow(QMainWindow):
                             self.pathOut,
                             "{}_time_{}.jpg".format(self.prefix, self.now_time_str),
                         ),
-                        self.image,
+                        self.image_resized,
                         [int(cv.IMWRITE_JPEG_QUALITY), self.jpg_quality],
                     )  # save frame as JPEG file
                     self.count += 1
@@ -268,12 +282,16 @@ class QmyMainWindow(QMainWindow):
                     cv.CAP_PROP_POS_MSEC, 1000 * self.frame_tuple_second
                 )
                 ret, self.image = self.cap.read()
+                self.frame_length = int(self.ui.lineEdit_length.text())
+                self.frame_width = int(self.ui.lineEdit_width.text())
+                self.image_resized = cv.resize(self.image, (self.frame_length, self.frame_width),
+                                               interpolation=cv.INTER_AREA)
                 cv.imwrite(
                     os.path.join(
                         self.pathOut,
                         "{}_time_{}.jpg".format(self.prefix, self.frame_tuple_number[self.count]),
                     ),
-                    self.image,
+                    self.image_resized,
                     [int(cv.IMWRITE_JPEG_QUALITY), self.jpg_quality],
                 )  # save frame as JPEG file
                 self.count += 1
@@ -312,12 +330,16 @@ class QmyMainWindow(QMainWindow):
                     cv.CAP_PROP_POS_FRAMES, int(self.frame_tuple[self.count])
                 )
                 ret, self.image = self.cap.read()
+                self.frame_length = int(self.ui.lineEdit_length.text())
+                self.frame_width = int(self.ui.lineEdit_width.text())
+                self.image_resized = cv.resize(self.image, (self.frame_length, self.frame_width),
+                                               interpolation=cv.INTER_AREA)
                 cv.imwrite(
                     os.path.join(
                         self.pathOut,
                         "{}_frame_{}.jpg".format(self.prefix, self.frame_tuple[self.count]),
                     ),
-                    self.image,
+                    self.image_resized,
                     [int(cv.IMWRITE_JPEG_QUALITY), self.jpg_quality],
                 )  # save frame as JPEG file
                 self.count += 1
@@ -394,6 +416,55 @@ class QmyMainWindow(QMainWindow):
         self.fig = plt.figure(self.temp_output_fullname)
         self.ax = self.fig.add_subplot(111)
         self.preview_image()
+
+    def choose_gif_directory(self):
+        """
+
+        :return:
+        """
+        self.gif_directory = QFileDialog.getExistingDirectory(QMainWindow(), "选择GIF素材文件夹")
+        self.ui.label_GIFhome.setText(self.gif_directory)
+        self.gif_file_num = 0
+        self.gif_list = []
+        fileExtensions = ["*.jpg", "*.jpeg", "*.png", "*.bmp"]
+        for extension in fileExtensions:
+            self.gif_file_num += len(glob.glob(os.path.join(self.gif_directory, extension)))
+            self.gif_list += glob.glob(os.path.join(self.gif_directory, extension))
+
+
+    def preview_gif(self):
+        """
+
+        """
+        self.gif_time = self.ui.spinBox_gif_time.value()
+        self.gif_frames = []
+        for i in range(len(self.gif_list)):
+            self.gif_frames.append(iio.imread(os.path.join(self.gif_directory, self.gif_list[i])))
+        iio.imwrite(os.path.join(self.gif_directory, "temp.gif"), self.gif_frames, duration = self.gif_time, loop=0)
+
+        self.movie = QMovie()
+        self.movie.setFileName(os.path.join(self.gif_directory, "temp.gif"))
+        self.ui.gif_display.setMovie(self.movie)
+        self.movie.start()
+
+    def create_gif(self):
+        """
+
+        """
+        self.gif_time = self.ui.spinBox_gif_time.value()
+        self.gif_frames = []
+        for i in range(len(self.gif_list)):
+            self.gif_frames.append(iio.imread(os.path.join(self.gif_directory, self.gif_list[i])))
+        iio.imwrite(os.path.join(self.gif_directory, "output.gif"), self.gif_frames, duration = self.gif_time, loop=0)
+
+        msgBox = QMessageBox()
+        msgBox.setWindowTitle("提示")
+        msgBox.setText("保存完成！")
+        msgBox.setInformativeText(
+            "已保存GIF至素材文件夹内 :)"
+        )
+        msgBox.exec()
+
 
     def on_press(self, event):
         """
