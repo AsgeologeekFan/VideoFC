@@ -71,9 +71,8 @@ class QmyMainWindow(QMainWindow):
         self.ui.pushButton_crop.clicked.connect(self.crop_save)
 
         self.ui.pushButton_gif_home.clicked.connect(self.choose_gif_directory)
-        # self.ui.spinBox_gif_time.valueChanged.connect(self.preview_gif)
-        self.ui.pushButton_test.clicked.connect(self.preview_gif)
-        # self.ui.gif_display.setScaledContents(True)
+        self.ui.spinBox_gif_time.valueChanged.connect(self.preview_gif)
+        self.ui.label_gif_display.setScaledContents(True)
         self.ui.pushButton_gif_save.clicked.connect(self.create_gif)
 
         self.ui.actionCopyright.triggered.connect(self.clickcopyright)
@@ -432,19 +431,32 @@ class QmyMainWindow(QMainWindow):
             self.gif_list += glob.glob(os.path.join(self.gif_directory, extension))
 
 
+        self.img_ref = Image.open(self.gif_list[0])
+        self.gif_ratio = self.img_ref.height / self.img_ref.width
+        if self.gif_ratio < 1.0:
+            self.ui.label_gif_display.resize(600, 600 * self.gif_ratio)
+        elif self.gif_ratio > 1.0:
+            self.ui.label_gif_display.resize(600, 600 / self.gif_ratio)
+        else:
+            self.ui.label_gif_display.resize(600, 600)
+
+
+        self.preview_gif()
+
     def preview_gif(self):
         """
 
         """
         self.gif_time = self.ui.spinBox_gif_time.value()
         self.gif_frames = []
+        self.ui.label_gif_display.setText("正在加载预览...")
         for i in range(len(self.gif_list)):
             self.gif_frames.append(iio.imread(os.path.join(self.gif_directory, self.gif_list[i])))
         iio.imwrite(os.path.join(self.gif_directory, "temp.gif"), self.gif_frames, duration = self.gif_time, loop=0)
 
         self.movie = QMovie()
         self.movie.setFileName(os.path.join(self.gif_directory, "temp.gif"))
-        self.ui.gif_display.setMovie(self.movie)
+        self.ui.label_gif_display.setMovie(self.movie)
         self.movie.start()
 
     def create_gif(self):
@@ -457,6 +469,7 @@ class QmyMainWindow(QMainWindow):
             self.gif_frames.append(iio.imread(os.path.join(self.gif_directory, self.gif_list[i])))
         iio.imwrite(os.path.join(self.gif_directory, "output.gif"), self.gif_frames, duration = self.gif_time, loop=0)
 
+
         msgBox = QMessageBox()
         msgBox.setWindowTitle("提示")
         msgBox.setText("保存完成！")
@@ -464,6 +477,16 @@ class QmyMainWindow(QMainWindow):
             "已保存GIF至素材文件夹内 :)"
         )
         msgBox.exec()
+        # msgBox.setStandardButtons(QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel)
+        # msgBox.setDefaultButton(QMessageBox.Discard)
+        # ret = msgBox.exec()
+
+        # if ret == QMessageBox.Save:
+        #     pass
+        # elif ret == QMessageBox.Discard:
+        #     os.remove(os.path.join(self.gif_directory, "temp.gif"))
+        # elif ret == QMessageBox.Cancel:
+        #     pass
 
 
     def on_press(self, event):
@@ -884,7 +907,7 @@ class QmyMainWindow(QMainWindow):
             pass
         elif ret == QMessageBox.Discard:
             self.delete_temp()
-            sys.exit()
+            # sys.exit()
             # os.makedirs(self.temp_path, exist_ok=False)
         elif ret == QMessageBox.Cancel:
             pass
@@ -895,3 +918,4 @@ if __name__ == "__main__":
     window = QmyMainWindow()
     window.show()
     sys.exit(app.exec())
+

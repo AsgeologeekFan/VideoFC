@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="tabWidgetPage1">
      <attribute name="title">
@@ -747,13 +747,13 @@
      <attribute name="title">
       <string>生成GIF</string>
      </attribute>
-     <widget class="QLabel" name="gif_display">
+     <widget class="QLabel" name="label_gif_display">
       <property name="geometry">
        <rect>
         <x>60</x>
         <y>100</y>
-        <width>641</width>
-        <height>531</height>
+        <width>600</width>
+        <height>600</height>
        </rect>
       </property>
       <property name="frameShape">
@@ -790,7 +790,7 @@
        <rect>
         <x>170</x>
         <y>60</y>
-        <width>401</width>
+        <width>341</width>
         <height>26</height>
        </rect>
       </property>
@@ -807,6 +807,9 @@
          <property name="specialValueText">
           <string/>
          </property>
+         <property name="keyboardTracking">
+          <bool>false</bool>
+         </property>
          <property name="suffix">
           <string/>
          </property>
@@ -821,13 +824,6 @@
          </property>
          <property name="value">
           <number>1000</number>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="pushButton_test">
-         <property name="text">
-          <string>预览GIF</string>
          </property>
         </widget>
        </item>
