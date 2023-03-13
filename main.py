@@ -22,6 +22,7 @@ from PySide6.QtWidgets import (
     QSlider, QProgressBar
 )
 import rc_resource
+from datetime import datetime
 
 from ui_main import Ui_MainWindow
 
@@ -63,12 +64,12 @@ class QmyMainWindow(QMainWindow):
         self.ui.spinBox_leftup_y.valueChanged.connect(self.preview_image)
         self.ui.spinBox_rightdown_x.valueChanged.connect(self.preview_image)
         self.ui.spinBox_rightdown_y.valueChanged.connect(self.preview_image)
-
         self.ui.pushButton_preview.clicked.connect(self.open_preview)
-        self.ui.pushButton_refresh.clicked.connect(self.preview_image)
+        self.ui.pushButton_refresh.clicked.connect(self.refresh_img)
 
         self.ui.checkBox.stateChanged.connect(self.toggle_crop_method)
         self.ui.pushButton_crop.clicked.connect(self.crop_save)
+        self.ui.pushButton_reset.clicked.connect(self.reset_directory)
 
         self.ui.pushButton_gif_home.clicked.connect(self.choose_gif_directory)
         self.ui.spinBox_gif_time.valueChanged.connect(self.preview_gif)
@@ -365,8 +366,11 @@ class QmyMainWindow(QMainWindow):
         self.file_directory = QFileDialog.getExistingDirectory(QMainWindow(), "选择文件夹")
         self.ui.label_path.setText(self.file_directory)
 
-        self.output_path = os.path.join(self.file_directory, "./output")
-        self.temp_path = os.path.join(self.file_directory, "./temp")
+        self.now = datetime.now()
+        self.stamp = self.now.strftime("%Y%m%d%H%M%S")
+
+        self.output_path = os.path.join(self.file_directory, "./output"+self.stamp)
+        self.temp_path = os.path.join(self.file_directory, "./temp"+self.stamp)
 
         self.file_num = 0
         fileExtensions = ["*.jpg", "*.jpeg", "*.png", "*.bmp", "*.gif"]
@@ -374,11 +378,11 @@ class QmyMainWindow(QMainWindow):
             self.file_num += len(glob.glob(os.path.join(self.file_directory, extension)))
         #self.file_num = len(os.listdir(self.file_directory))
 
-        if os.path.exists(self.output_path) and os.path.isdir(self.output_path):
-            shutil.rmtree(self.output_path)
+        # if os.path.exists(self.output_path) and os.path.isdir(self.output_path):
+        #     shutil.rmtree(self.output_path)
         if os.path.exists(self.temp_path) and os.path.isdir(self.temp_path):
             shutil.rmtree(self.temp_path)
-        os.makedirs(self.output_path, exist_ok=False)
+        # os.makedirs(self.output_path, exist_ok=False)
         os.makedirs(self.temp_path, exist_ok=False)
 
         self.preview_img_num = self.ui.spinBox_No.value()
@@ -724,6 +728,23 @@ class QmyMainWindow(QMainWindow):
 
         self.ui.MplWidget.canvas.draw()
 
+    def refresh_img(self):
+        """
+        pass
+        """
+        self.horizontal_line1.set_visible(False)
+        self.vertical_line1.set_visible(False)
+        self.horizontal_line2.set_visible(False)
+        self.vertical_line2.set_visible(False)
+        self.ui.MplWidget.canvas.draw()
+
+        self.horizontal_line1out.set_visible(False)
+        self.vertical_line1out.set_visible(False)
+        self.horizontal_line2out.set_visible(False)
+        self.vertical_line2out.set_visible(False)
+        self.ax.figure.canvas.draw()
+
+
     def open_preview(self):
         """
 
@@ -768,11 +789,48 @@ class QmyMainWindow(QMainWindow):
         """
         shutil.rmtree(self.temp_path)
 
+    def reset_directory(self):
+        """
+        Reread images after pressing crop_save.
+        """
+
+        self.now = datetime.now()
+        self.stamp = self.now.strftime("%Y%m%d%H%M%S")
+
+        self.output_path = os.path.join(self.file_directory, "./output"+self.stamp)
+        self.temp_path = os.path.join(self.file_directory, "./temp"+self.stamp)
+
+        # if os.path.exists(self.output_path) and os.path.isdir(self.output_path):
+        #     shutil.rmtree(self.output_path)
+        if os.path.exists(self.temp_path) and os.path.isdir(self.temp_path):
+            shutil.rmtree(self.temp_path)
+        # os.makedirs(self.output_path, exist_ok=False)
+        os.makedirs(self.temp_path, exist_ok=False)
+
+
+        self.horizontal_line1.set_visible(False)
+        self.vertical_line1.set_visible(False)
+        self.horizontal_line2.set_visible(False)
+        self.vertical_line2.set_visible(False)
+        self.ui.MplWidget.canvas.draw()
+
+        self.horizontal_line1out.set_visible(False)
+        self.vertical_line1out.set_visible(False)
+        self.horizontal_line2out.set_visible(False)
+        self.vertical_line2out.set_visible(False)
+        self.ax.figure.canvas.draw()
+
+
+
+
     def crop_save(self):
         """
 
         :return:
         """
+        if os.path.exists(self.output_path) and os.path.isdir(self.output_path):
+            shutil.rmtree(self.output_path)
+        os.makedirs(self.output_path, exist_ok=False)
 
         self.lux = int(self.ui.label_leftupx.text())
         self.luy = int(self.ui.label_leftupy.text())
@@ -905,12 +963,15 @@ class QmyMainWindow(QMainWindow):
 
         if ret == QMessageBox.Save:
             pass
+            # self.reset_directory()
         elif ret == QMessageBox.Discard:
             self.delete_temp()
+            # self.reset_directory()
             # sys.exit()
             # os.makedirs(self.temp_path, exist_ok=False)
         elif ret == QMessageBox.Cancel:
             pass
+            # self.reset_directory()
 
 
 if __name__ == "__main__":

@@ -309,6 +309,9 @@ class Ui_MainWindow(object):
         self.label_rightdownx.setGeometry(QRect(680, 610, 53, 16))
         self.label_rightdownx.setFrameShape(QFrame.Panel)
         self.label_rightdownx.setFrameShadow(QFrame.Sunken)
+        self.pushButton_reset = QPushButton(self.tabWidgetPage2)
+        self.pushButton_reset.setObjectName(u"pushButton_reset")
+        self.pushButton_reset.setGeometry(QRect(730, 660, 75, 24))
         self.tabWidget.addTab(self.tabWidgetPage2, "")
         self.tabWidgetPage3 = QWidget()
         self.tabWidgetPage3.setObjectName(u"tabWidgetPage3")
@@ -384,7 +387,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.tabWidget.setCurrentIndex(2)
+        self.tabWidget.setCurrentIndex(1)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -419,7 +422,7 @@ class Ui_MainWindow(object):
         self.label_path.setText("")
         self.label_adjustpara.setText(QCoreApplication.translate("MainWindow", u"\u4eae\u5ea6", None))
         self.pushButton_crop.setText(QCoreApplication.translate("MainWindow", u"\u6279\u91cf\u5904\u7406\u5e76\u4fdd\u5b58", None))
-        self.pushButton_refresh.setText(QCoreApplication.translate("MainWindow", u"\u5237\u65b0\u89c6\u56fe", None))
+        self.pushButton_refresh.setText(QCoreApplication.translate("MainWindow", u"\u91cd\u7f6e\u88c1\u526a\u6846", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"\u5de6\u4e0aX", None))
         self.pushButton_preview.setText(QCoreApplication.translate("MainWindow", u"\u6253\u5f00\u9884\u89c8\u56fe", None))
         self.checkBox.setText(QCoreApplication.translate("MainWindow", u"\u624b\u52a8\u8f93\u5165\u88c1\u526a\u6846\u5750\u6807", None))
@@ -438,6 +441,7 @@ class Ui_MainWindow(object):
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"\u53f3\u4e0bX", None))
         self.label_leftupy.setText("")
         self.label_rightdownx.setText("")
+        self.pushButton_reset.setText(QCoreApplication.translate("MainWindow", u"\u91cd\u65b0\u5904\u7406", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabWidgetPage2), QCoreApplication.translate("MainWindow", u"\u6279\u91cf\u5904\u7406\u56fe\u50cf", None))
         self.label_gif_display.setText(QCoreApplication.translate("MainWindow", u"GIF\u9884\u89c8\u533a", None))
         self.pushButton_gif_save.setText(QCoreApplication.translate("MainWindow", u"\u4fdd\u5b58GIF", None))

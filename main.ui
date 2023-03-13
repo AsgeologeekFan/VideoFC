@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="tabWidgetPage1">
      <attribute name="title">
@@ -443,7 +443,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>刷新视图</string>
+       <string>重置裁剪框</string>
       </property>
      </widget>
      <widget class="QLabel" name="label">
@@ -740,6 +740,19 @@
       </property>
       <property name="text">
        <string/>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_reset">
+      <property name="geometry">
+       <rect>
+        <x>730</x>
+        <y>660</y>
+        <width>75</width>
+        <height>24</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>重新处理</string>
       </property>
      </widget>
     </widget>
